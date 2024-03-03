@@ -78,9 +78,25 @@ app.get('/deleteBook/:id', async (req, res) => {
 })
 
 // edit Data
+app.get('/editBook/:id', async (req, res) => {
+    const userId = req.params.id;
 
+    const book = await productModel.findById(userId);
+
+    res.render('./Pages/editbook', { book });
+})
+
+// post Data
+app.post('/editBook/:id', async (req, res) => {
+    const userId = req.params.id;
+    const updatedBookData = req.body;
+
+    const updatedBook = await productModel.findByIdAndUpdate(userId, updatedBookData, { new: true });
+
+    res.redirect('/booklist');
+})
 
 // port Listen at
 app.listen(9000, () => {
-    console.log('Server Start');
+    console.log('Server Start');    
 })
