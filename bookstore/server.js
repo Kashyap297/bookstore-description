@@ -1,52 +1,18 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/bookStore')
-
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-const productSchema = new mongoose.Schema({
-    bookid: {
-        type: Number,
-        required: true,
-    },
-    title: {
-        type: String,
-        required: true,
-    },
-    booktype: {
-        type: String,
-        required: true,
-    },
-    stock: {
-        type: Number,
-        required: true,
-    },
-    price: {
-        type: Number,
-        required: true,
-    },
-    publishdate: {
-        type: Date,
-        required: true,
-    },
-    author: {
-        type: String,
-        required: true,
-    }
-
-}, { timestamps: true })
-
-const productModel = mongoose.model('Book', productSchema)
 
 app.set('view engine', 'ejs')
 
-// home
-app.get('/', (req, res) => {
-    res.render('./Pages/home')
-})
+const { productModel } = require('./schema.js')
+
+    // home
+    app.get('/', (req, res) => {
+        res.render('./Pages/home')
+    })
 
 // retrive Data
 app.get('/booklist', async (req, res) => {
@@ -98,5 +64,5 @@ app.post('/editBook/:id', async (req, res) => {
 
 // port Listen at
 app.listen(9000, () => {
-    console.log('Server Start');    
+    console.log('Server Start');
 })
